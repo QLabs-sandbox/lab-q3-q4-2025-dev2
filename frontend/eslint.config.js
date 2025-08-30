@@ -2,6 +2,12 @@
 import js from "@eslint/js";
 
 export default [
+  {
+    ignores: [
+      ".next/**",
+      "node_modules/**"
+    ]
+  },
   js.configs.recommended,
   {
     files: ["**/*.js", "**/*.ts", "**/*.tsx"],
@@ -10,7 +16,7 @@ export default [
       sourceType: "module",
     },
     rules: {
-      // Add any custom rules here
+      // Dodaj custom pravila ovdje
     },
-  },
+  }
 ];

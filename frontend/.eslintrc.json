@@ -1,0 +1,9 @@
+{
+  "env": {
+    "jest": true
+  },
+
+  "extends": [
+    "next", "next/core-web-vitals"
+  ]
+}
