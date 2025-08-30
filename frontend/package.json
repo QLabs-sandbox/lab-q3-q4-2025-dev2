@@ -1,0 +1,7 @@
+{
+  "scripts": {
+    "lint": "eslint .",
+    "test": "jest",
+    "e2e": "playwright test"
+  }
+}

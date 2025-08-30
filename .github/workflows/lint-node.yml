@@ -1,0 +1,51 @@
+name: Lint & Test (Node + Frontend)
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  lint-node-frontend:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      # Frontend
+      - name: Install frontend dependencies
+        working-directory: ./frontend
+        run: npm install
+
+      - name: Run frontend lint
+        working-directory: ./frontend
+        run: npm run lint --if-present
+
+      - name: Run frontend tests
+        working-directory: ./frontend
+        run: npm run test --if-present -- --ci --watchAll=false
+
+      # Backend (Node.js)
+      - name: Install backend/node dependencies
+        working-directory: ./backend/node
+        run: npm install
+
+      - name: Run backend/node lint
+        working-directory: ./backend/node
+        run: npm run lint --if-present
+
+      - name: Run backend/node tests
+        working-directory: ./backend/node
+        run: npm run test --if-present -- --ci --watchAll=false
