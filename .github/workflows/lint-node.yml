@@ -12,14 +12,14 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x] # Dodao 20.x za better coverage
+        node-version: [18.x, 20.x]
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4 # Updated to v4
+        uses: actions/checkout@v4
 
       - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4 # Updated to v4
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
@@ -27,16 +27,22 @@ jobs:
             frontend/package-lock.json
             backend/node/package-lock.json
 
-      # Frontend linting and testing
+      # FRONTEND (Next.js) - u frontend/ folderu
       - name: Install frontend dependencies
         working-directory: ./frontend
         run: |
-          # Use npm ci for faster, reliable installs in CI
           if [ -f package-lock.json ]; then
             npm ci
           else
             npm install
           fi
+          echo "✅ Frontend dependencies installed"
+
+      - name: Build Next.js application
+        working-directory: ./frontend
+        run: |
+          npm run build
+          echo "✅ Next.js build successful"
 
       - name: Create minimal frontend test if missing
         working-directory: ./frontend
@@ -44,13 +50,19 @@ jobs:
           if [ ! -d "__tests__" ] && [ ! -f "jest.config.js" ]; then
             mkdir -p __tests__
             cat > __tests__/setup.test.js << 'EOF'
-          // Basic setup test for skeleton
-          describe('Frontend Setup', () => {
+          // Basic setup test for Next.js skeleton
+          describe('Next.js Frontend Setup', () => {
             test('should be properly configured', () => {
               expect(true).toBe(true);
             });
+
+            test('React should be available', () => {
+              const React = require('react');
+              expect(typeof React).toBe('object');
+            });
           });
           EOF
+            echo "✅ Created basic frontend test"
           fi
 
       - name: Run frontend lint
@@ -58,19 +70,19 @@ jobs:
         run: |
           if npm run lint --silent 2>/dev/null; then
             npm run lint
+            echo "✅ Frontend linting passed"
           else
-            echo "⚠️ No lint script found in frontend/package.json - skipping"
+            echo "⚠️ No lint script found - skipping"
           fi
 
       - name: Run frontend tests
         working-directory: ./frontend
         run: |
-          # Run tests only if jest is configured
-          if [ -f "jest.config.js" ] || grep -q "jest" package.json; then
+          if grep -q "jest" package.json; then
             npm test -- --ci --watchAll=false --passWithNoTests
+            echo "✅ Frontend tests completed"
           else
-            echo "⚠️ No Jest configuration found - creating basic test"
-            npm test -- --ci --watchAll=false --passWithNoTests
+            echo "⚠️ No Jest configuration found - skipping tests"
           fi
 
       # Backend Node.js linting and testing

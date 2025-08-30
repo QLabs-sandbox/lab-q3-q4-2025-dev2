@@ -57,10 +57,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Build frontend
-      - name: Build frontend
+      # Build Next.js frontend
+      - name: Build Next.js frontend
         working-directory: ./frontend
-        run: npm run build
+        run: |
+          npm run build
+          echo "✅ Next.js build completed successfully"
 
       # Create basic E2E test structure if missing
       - name: Setup E2E tests
