@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "eslint": "^9.0.0"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
