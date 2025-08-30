@@ -1,7 +1,9 @@
 {
   "scripts": {
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "start": "node index.js"
+
   },
   "devDependencies": {
     "jest": "^29.7.0",

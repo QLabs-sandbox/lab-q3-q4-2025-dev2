@@ -4,7 +4,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "test": "jest"
+    "test": "jest",
+    "test:e2e": "playwright test"
+
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
