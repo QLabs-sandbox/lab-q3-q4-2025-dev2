@@ -21,31 +21,35 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+          cache-dependency-path: |
+            frontend/package-lock.json
+            backend/node/package-lock.json
 
       # Install frontend dependencies
       - name: Install frontend dependencies
         working-directory: ./frontend
         run: npm install
 
-      # Build frontend (Next.js)
+      # Build frontend
       - name: Build frontend
         working-directory: ./frontend
         run: npm run build
 
-      # Start backend (Express/FastAPI) in background
-      - name: Install backend dependencies
-        working-directory: ./backend
+      # Install backend (Node.js) dependencies
+      - name: Install backend/node dependencies
+        working-directory: ./backend/node
         run: npm install
 
+      # Start backend (Node.js) in background
       - name: Start backend server
-        working-directory: ./backend
+        working-directory: ./backend/node
         run: npm start &
 
-      # Wait a bit for backend to boot
+      # Wait for backend to boot
       - name: Wait for backend
         run: sleep 10
 
-      # Install Playwright browsers
+      # Install Playwright
       - name: Install Playwright
         working-directory: ./frontend
         run: npx playwright install --with-deps

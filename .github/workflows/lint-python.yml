@@ -23,20 +23,15 @@ jobs:
         working-directory: ./backend/python
         run: |
           python -m venv venv
-          source venv/bin/activate
-          pip install --upgrade pip
-          pip install -r requirements.txt
+          ./venv/bin/pip install --upgrade pip
+          ./venv/bin/pip install -r requirements.txt
 
       - name: Run lint (flake8)
         working-directory: ./backend/python
         run: |
-          source venv/bin/activate
-          pip install flake8
-          flake8 app --max-line-length=100
+          ./venv/bin/flake8 app --max-line-length=100
 
       - name: Run tests (pytest)
         working-directory: ./backend/python
         run: |
-          source venv/bin/activate
-          pip install pytest
-          pytest app/tests
+          ./venv/bin/pytest app/tests
