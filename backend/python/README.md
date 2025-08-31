@@ -44,3 +44,13 @@ You can install them locally with:
 ```bash
 pip install flake8 pytest
 ```
+
+## Development
+
+Za provjeru stila koda koristi se [Ruff](https://docs.astral.sh/ruff/):
+
+```bash
+ruff check .
+```
+
+Testovi koriste assert, što Ruff inače prijavljuje (S101), ali je to ignorirano u tests/test_dummy.py.
