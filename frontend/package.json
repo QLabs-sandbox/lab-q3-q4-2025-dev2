@@ -1,0 +1,28 @@
+{
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "test": "jest",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "next": "^15.5.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^15.5.2",
+    "eslint-plugin-jest": "^29.0.1",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.4.1",
+    "@playwright/test": "latest",
+    "typescript": "^5.1.0"
+  },
+  "type": "module"
+}
