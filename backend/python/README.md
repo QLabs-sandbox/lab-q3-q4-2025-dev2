@@ -47,10 +47,6 @@ pip install flake8 pytest
 
 ## Development
 
+# File: backend/python/README.md
 Za provjeru stila koda koristi se [Ruff](https://docs.astral.sh/ruff/):
 
-```bash
-ruff check .
-```
-
-Testovi koriste assert, što Ruff inače prijavljuje (S101), ali je to ignorirano u tests/test_dummy.py.
