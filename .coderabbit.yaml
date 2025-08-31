@@ -1,12 +1,22 @@
 version: 1
 
+reviews:
+  profile: chill
+  path_filters:
+    - '!dist/**'
+    - '!build/**'
+  tools:
+    actionlint: { enabled: true }
+    flake8: { enabled: true }
+    eslint: { enabled: true }
+    markdownlint: { enabled: true }
+
 review:
   target_branches: ['main', 'develop']
   max_pr_files: 40
   max_pr_size_loc: 800
   languages: ['javascript', 'typescript', 'python']
   frameworks: ['react', 'next.js']
-
   goals:
     - enforce_security_basics
     - encourage_simple_solutions
