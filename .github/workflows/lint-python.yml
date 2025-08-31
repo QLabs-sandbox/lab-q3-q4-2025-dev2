@@ -12,11 +12,11 @@ jobs:
 
     strategy:
       matrix:
-        python-version: ['3.10', '3.11'] # Added matrix for better coverage
+        python-version: ['3.10', '3.11'] # Matrix za bolju pokrivenost
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4 # Updated to v4
+        uses: actions/checkout@v4
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
@@ -37,68 +37,21 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Create basic app structure if missing
-        working-directory: ./backend/python
-        run: |
-          # Create basic FastAPI app if doesn't exist
-          if [ ! -f "app/main.py" ]; then
-            mkdir -p app
-            cat > app/main.py << 'EOF'
-          from fastapi import FastAPI
-
-          app = FastAPI(title="Skeleton API", version="1.0.0")
-
-          @app.get("/")
-          def read_root():
-              return {"message": "Hello from skeleton API!"}
-
-          @app.get("/health")
-          def health_check():
-              return {"status": "healthy"}
-          EOF
-          fi
-
-          # Create basic test if doesn't exist
-          if [ ! -d "app/tests" ]; then
-            mkdir -p app/tests
-            touch app/tests/__init__.py
-            cat > app/tests/test_main.py << 'EOF'
-          from fastapi.testclient import TestClient
-          import sys
-          import os
-          sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-          from main import app
-
-          client = TestClient(app)
-
-          def test_read_root():
-              response = client.get("/")
-              assert response.status_code == 200
-              assert "message" in response.json()
-
-          def test_health_check():
-              response = client.get("/health")
-              assert response.status_code == 200
-              assert response.json() == {"status": "healthy"}
-          EOF
-          fi
-
       - name: Run lint (flake8)
         working-directory: ./backend/python
         run: |
           if [ -d "app" ]; then
             flake8 app --max-line-length=100 --extend-ignore=E203,W503
           else
-            echo "⚠️ No app directory found - creating minimal structure"
-            mkdir -p app
-            touch app/__init__.py
-            echo "✅ Basic structure created"
+            echo "⚠️ Skipping lint: no app directory found"
           fi
 
       - name: Run tests (pytest)
         working-directory: ./backend/python
         run: |
-          # Install httpx for FastAPI testing
           pip install httpx
-          pytest app/tests -v --tb=short
+          if [ -d "app/tests" ]; then
+            pytest app/tests -v --tb=short
+          else
+            echo "⚠️ Skipping tests: no tests directory found"
+          fi

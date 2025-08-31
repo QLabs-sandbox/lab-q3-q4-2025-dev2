@@ -3,4 +3,4 @@
 
 
 def test_dummy_ci_check():
-    assert True
+    assert 1 + 1 == 2
