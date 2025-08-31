@@ -46,9 +46,8 @@ npm start
 Ensure these scripts are defined in `package.json` to match CI workflows.
 
 ## Notes
-
 - Environment variables should be stored in a `.env` file (excluded from Git).
-- You can copy and edit `.env.example` a
+- You can copy and edit `.env.example` as a template for your local `.env`.
 
 ## Testing
 
