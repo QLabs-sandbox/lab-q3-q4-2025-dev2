@@ -3,20 +3,10 @@ const input = document.getElementById("task-input");
 const ul = document.getElementById("task-list");
 const statusEl = document.getElementById("status");
 
-let idCounter = 0;
-
 form.addEventListener("submit", (event) => {
   event.preventDefault();
   const taskText = input.value.trim();
   if (!taskText) return;
-
-  // const li = document.createElement("li");
-  // li.textContent = taskText;
-  // ul.appendChild(li);
-
-  // statusEl.textContent = `Task “${taskText}” added.`;
-  // input.value = "";
-  // input.focus();
 
   ul.appendChild(createItem(taskText));
   announce(`Task “${taskText}” added.`);
@@ -27,12 +17,17 @@ form.addEventListener("submit", (event) => {
 function createItem(text) {
   const li = document.createElement("li");
 
+  const uid =
+    typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+      ? crypto.randomUUID()
+      : `task-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+
   const cb = document.createElement("input");
   cb.type = "checkbox";
-  cb.id = `task-${++idCounter}`;
+  cb.id = uid;
 
   const label = document.createElement("label");
-  label.htmlFor = cb.id;
+  label.htmlFor = uid;
   label.textContent = text;
 
   cb.addEventListener("change", () => {
@@ -45,7 +40,9 @@ function createItem(text) {
   const del = document.createElement("button");
   del.type = "button";
   del.className = "delete-btn";
-  del.innerHTML = `Delete <span class="sr-only">task “${text}”</span>`;
+  del.textContent = "Delete";
+  del.setAttribute("aria-label", `Delete task "${text}"`);
+
   del.addEventListener("click", () => {
     li.remove();
     announce(`Task “${text}” deleted.`);
@@ -57,5 +54,8 @@ function createItem(text) {
 }
 
 function announce(message) {
-  statusEl.textContent = message;
+  statusEl.textContent = "";
+  setTimeout(() => {
+    statusEl.textContent = message;
+  }, 0);
 }

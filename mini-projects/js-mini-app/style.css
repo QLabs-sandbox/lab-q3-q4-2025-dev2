@@ -55,11 +55,6 @@ form {
   align-items: flex-end;
 }
 
-form label {
-  position: absolute;
-  left: -9999px;
-}
-
 #task-input {
   flex: 1;
   padding: 8px;
@@ -86,6 +81,11 @@ li label {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+li.completed label {
+  color: #6b7280;
+  text-decoration: line-through;
 }
 
 li .delete-btn {
