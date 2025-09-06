@@ -17,8 +17,15 @@
           type="text"
           placeholder="Enter a new task"
           required
-          aria-describedby="task-hint"
+          aria-describedby="task-hint form-error"
+          maxlength="120"
         />
+        <p
+          id="form-error"
+          class="form-error"
+          role="alert"
+          aria-live="assertive"
+        ></p>
         <div id="task-hint" class="sr-only">
           Type a task and press Add Task.
         </div>
